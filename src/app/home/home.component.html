@@ -1,0 +1,128 @@
+<div class="Container">
+    <app-header></app-header>
+    <section class="sec1">
+        <div class="carousel">
+            <ngb-carousel [showNavigationArrows]="false">
+                <ng-template ngbSlide>
+                    <div class="img">
+                        <img src="https://img.freepik.com/free-photo/shopping-concept-close-up-portrait-young-beautiful-attractive-redhair-girl-smiling-looking-camera_1258-118763.jpg?ga=GA1.1.717916194.1733908841&semt=ais_hybrid"
+                            alt="">
+                        <div class="bannerInfo">
+                            <h2>Grab Upto 50% off on</h2>
+                            <h2>Selected Headphones</h2>
+                            <button type="button">Buy Now</button>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template ngbSlide>
+                    <div class="img">
+                        <img src="https://img.freepik.com/free-photo/lovely-romantic-cute-redhead-woman-prepared-gift-valentines-day-wrapped-present-pink-pape_1258-132697.jpg?ga=GA1.1.717916194.1733908841&semt=ais_hybrid"
+                            alt="">
+                        <div class="bannerInfo">
+                            <h2>Step Into Comfort with</h2>
+                            <h2>Stylish Footwear</h2>
+                            <button type="button">Explore Collection</button>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template ngbSlide>
+                    <div class="img">
+                        <img src="https://img.freepik.com/premium-photo/shopping-cart-with-white-handmade-heart-flies-bright-yellow-background-banner_164357-6605.jpg?ga=GA1.1.717916194.1733908841&semt=ais_hybrid"
+                            alt="">
+                        <div class="bannerInfo">
+                            <h2>Stay Connected with</h2>
+                            <h2>Smartphones on Sale</h2>
+                            <button type="button">View Deals</button>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-carousel>
+        </div>
+    </section>
+    <section class="sec2">
+        <div class="filter">
+            <div class="type">
+                <ul>
+                    <li>Headphone Type <i class="fa fa-chevron-down"></i></li>
+                    <li>Price <i class="fa fa-chevron-down"></i></li>
+                    <li>Review <i class="fa fa-chevron-down"></i></li>
+                    <li>Color <i class="fa fa-chevron-down"></i></li>
+                    <li>Material <i class="fa fa-chevron-down"></i></li>
+                    <li>Offer <i class="fa fa-chevron-down"></i></li>
+                    <li>All Offer <i class="fa fa-filter"></i></li>
+                </ul>
+            </div>
+            <div class="shortBy">
+                <div ngbDropdown class="dropdown">
+                    <button class=" dropdown-toggle" ngbDropdownToggle>
+                        Short By
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownMenuButton">
+                        <button class="dropdown-item" (click)="onSelect('Option 1')">Option 1</button>
+                        <button class="dropdown-item" (click)="onSelect('Option 2')">Option 2</button>
+                        <button class="dropdown-item" (click)="onSelect('Option 3')">Option 3</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- end of section 2 -->
+
+
+    <!-- starting of section  3 -->
+
+    <section class="sec3">
+        <div class="products">
+            <div class="heading">
+                <h2>Headphones For You!</h2>
+            </div>
+            <div class="productCards">
+                <div class="card" *ngFor="let product of products">
+                    <div class="proImg">
+                        <img src="{{product.img}}" alt="img">
+                    </div>
+                    <div class="proDescription">
+                        <div class="proHeading">
+                            <div class="proHead">
+                                <h5>{{product.head}}</h5>
+                            </div>
+                            <div class="proPrice">
+                                <span>{{product.price}}</span>
+                            </div>
+                        </div>
+
+                        <div class="proPara">
+                            <p>{{product.para}}</p>
+                        </div>
+
+                        <div class="proRating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <span>{{product.count}}</span>
+                        </div>
+                        <div class="proBtn">
+                            <button type="button" class="btn">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="sec4">
+        <div class="something">
+            <app-table></app-table>
+        </div>
+        <div class="something">
+            <app-sign-up></app-sign-up>
+        </div>
+
+    </section>
+    <footer style="height: 100px;">
+
+    </footer>
+</div>

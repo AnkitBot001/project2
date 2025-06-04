@@ -1,0 +1,19 @@
+.sign-up-form {
+  max-width: 400px;
+  margin: 20px auto;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+small {
+  color: red;
+  font-size: 0.85em;
+}
+
+.something {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 10px;
+}

@@ -1,0 +1,66 @@
+<table class="table table-striped" style="width: 90%; margin: auto;">
+    <thead>
+        <tr>
+            <th scope="col">S.No</th>
+            <th scope="col">img</th>
+            <th scope="col">UserName</th>
+            <th scope="col">Email</th>
+            <th scope="col">Delete</th>
+            <th scope="col">Edit</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of users; let i = index;">
+            <th scope="row">{{ i + 1 }}</th>
+            <td>
+              <!-- Check file type and display accordingly -->
+              <ng-container *ngIf="isImage(user.imageUrl); else otherFile">
+                <img [src]="user.imageUrl" style="height: 100px; width: 200px;" alt="User File">
+              </ng-container>
+              <ng-template #otherFile>
+                <ng-container *ngIf="isVideo(user.imageUrl); else pdfFile">
+                  <video [src]="user.imageUrl" style="height: 100px; width: 200px;" muted autoplay controls></video>
+                </ng-container>
+                <ng-template #pdfFile>
+                  <a [href]="user.imageUrl" target="_blank">View PDF</a>
+                </ng-template>
+              </ng-template>
+            </td>
+            <td>{{ user.username |titlecase }}</td>
+            <td>{{ user.email |titlecase}}</td>
+            <td>
+              <button type="button" class="btn btn-danger" (click)="deleteIndex(user.id)">
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+            <td>
+              <button type="button" class="btn btn-primary" (click)="editUser(user.id)">
+                <i class="fa fa-pen-to-square"></i>
+              </button>
+            </td>
+            <td style="display: none;">
+              <button type="button" class="btn btn-primary" (click)="dispayData(user.id)">
+                <i class="fa fa-bandage"></i>
+              </button>
+            </td>
+          </tr>
+          
+    </tbody>
+</table>
+<div class="sign-up-form" *ngIf="showForm">
+
+    <form [formGroup]="updateForm">
+        <div class="formGroup">
+            <label for="userName">UserName</label>
+            <input class="form-control" formControlName="username" type="text">
+        </div>
+        <div class="formGroup">
+            <label for="userName">Email</label>
+            <input class="form-control" formControlName="email" type="email">
+        </div>
+        <button *ngIf="showEdit" style="width: 100%; margin-top: 10px;" class="btn btn-primary" type="submit"
+            (click)="updateData(updateForm.value)">Update</button>
+        <button *ngIf="showPatch" style="width: 100%; margin-top: 10px;" class="btn btn-primary" type="submit"
+            (click)="patchUser(updateForm.value)">Patch</button>
+    </form>
+</div>

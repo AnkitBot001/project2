@@ -1,0 +1,67 @@
+<form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="name">Name:</label>
+      <input id="name" formControlName="name" type="text" />
+      <div *ngIf="uploadForm.get('name')?.invalid && uploadForm.get('name')?.touched">
+        Name is required
+      </div>
+    </div>
+  
+    <div>
+      <label for="address">Address:</label>
+      <input id="address" formControlName="address" type="text" />
+      <div *ngIf="uploadForm.get('address')?.invalid && uploadForm.get('address')?.touched">
+        Address is required
+      </div>
+    </div>
+  
+    <div>
+      <label for="email">Email:</label>
+      <input id="email" formControlName="email" type="email" />
+      <div *ngIf="uploadForm.get('email')?.invalid && uploadForm.get('email')?.touched">
+        Please enter a valid email
+      </div>
+    </div>
+  
+    <div>
+      <label for="phone">Phone:</label>
+      <input id="phone" formControlName="phone" type="tel" />
+      <div *ngIf="uploadForm.get('phone')?.invalid && uploadForm.get('phone')?.touched">
+        Phone number must be 10 digits
+      </div>
+    </div>
+  
+    <div>
+      <label for="files">Files:</label>
+      <input id="files" type="file" (change)="onFileSelect($event)" multiple />
+    </div>
+  
+    <div>
+      <button type="submit" [disabled]="uploadForm.invalid">Submit</button>
+    </div>
+  </form>
+  
+
+   <!-- <div class="center">
+    <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" 
+    (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+        <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+          Optional custom content that replaces the the entire default content.
+          <button type="button" (click)="openFileSelector()">Browse Files</button>
+        </ng-template>
+    </ngx-file-drop>
+    <div class="upload-table">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody class="upload-name-style">
+                <tr *ngFor="let item of files; let i=index">
+                    <td><strong>{{ item.relativePath }}</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div> -->

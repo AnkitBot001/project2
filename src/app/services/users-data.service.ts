@@ -1,0 +1,49 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http'
+import { Observable, Subject } from 'rxjs';
+import { user } from '../data-type';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UsersDataService {
+
+  constructor(private http: HttpClient) { }
+
+  private url = 'http://localhost:3000/user';
+
+  users() :Observable<any[]>{
+    return this.http.get<any[]>(this.url);
+  }
+
+  postData(formData:any){
+    console.log(formData,"this is from post service");
+    return this.http.post(this.url,formData)
+  }
+
+  deleteData(id:any){
+    console.log("Id of service", id);   
+    return this.http.delete(`http://localhost:3000/user/${id}`);
+  }
+
+  editUser(id:any):Observable<user>{
+    return this.http.get<user>(`http://localhost:3000/user/${id}`)
+  }
+
+  updateUserInfo(user:user){
+    const obj = {email:user.email, username:user.username, id:user.id}
+    return this.http.patch<user>(`http://localhost:3000/user/${user.id}`,obj)
+  }
+
+  patchMethod(user:user){
+    const obj = {email:user.email, username:user.username, id:user.id}
+    return this.http.patch<user>(`http://localhost:3000/user/${user.id}`,obj)
+  }
+
+  getDataFromApi(user:user){
+    return this.http.get(`http://localhost:3000/user/${user.id}`)
+  }
+  onButtonClick = new Subject
+}
+
+
