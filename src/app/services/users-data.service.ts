@@ -12,7 +12,7 @@ export class UsersDataService {
 
   private url = 'http://localhost:3000/user';
 
-  public URL = 'http://localhost:3000/api/users';
+  public URL = 'http://localhost:3001/api/users';
 
   users() :Observable<any[]>{
     return this.http.get<any[]>(this.url);
@@ -52,6 +52,10 @@ export class UsersDataService {
     return this.http.get(API_URL, { params: queryParams })
   }
 
+  deleteUserById(id:string){
+    const API_URL = `${this.URL}/delete/${id}`;
+    return this.http.delete(API_URL)
+  }
 
   onButtonClick = new Subject
 }

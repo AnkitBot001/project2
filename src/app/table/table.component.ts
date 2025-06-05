@@ -121,6 +121,8 @@ export class TableComponent implements OnInit {
   // }
 
   sort:number=1;
+  dataSource: any;
+  displayedColumns: string[] = ['index', 'username', 'email', 'age', 'actions'];
 
   constructor(private service:UsersDataService){}
   
@@ -131,16 +133,23 @@ export class TableComponent implements OnInit {
   getUserList(){
     let obj = {
       page: 1,
-      limit: 10,
+      limit: 20,
       sort: this.sort,
     };
     this.service.getUserList(obj).subscribe((res:any) => {
       console.log(res, "User List Response");
+      this.dataSource = res.data;
     })
   }
 
   deleteIndex(id: any): void {
     console.log("Id of delete", id);
+    if(id){
+      this.service.deleteUserById(id).subscribe((res:any) => {
+        console.log(res, "Response after delete");
+        this.getUserList();
+      })
+    }
   }
 
   editUser(id: user) {
