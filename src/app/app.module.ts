@@ -19,6 +19,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { DeleteConfirmationComponent } from './popups/delete-confirmation/delete-confirmation.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +28,7 @@ import { MatInputModule } from '@angular/material/input';
     TableComponent,
     SignUpComponent,
     MultipartComponent,
+    DeleteConfirmationComponent,
   ],
   imports: [
     BrowserModule,
