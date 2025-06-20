@@ -57,6 +57,11 @@ export class UsersDataService {
     return this.http.delete(API_URL)
   }
 
+  signUp(form:any){
+    const API_URL = `${this.URL}/signup`;
+    return this.http.post(API_URL, form)
+  }
+
   onButtonClick = new Subject
 }
 

@@ -4,6 +4,8 @@ import { inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { user } from '../data-type';
+import { DeleteConfirmationComponent } from '../popups/delete-confirmation/delete-confirmation.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-table',
@@ -124,7 +126,7 @@ export class TableComponent implements OnInit {
   dataSource: any;
   displayedColumns: string[] = ['index', 'username', 'email', 'age', 'actions'];
 
-  constructor(private service:UsersDataService){}
+  constructor(private service:UsersDataService,private dialog: MatDialog){}
   
   ngOnInit(): void {
     this.getUserList();
@@ -144,12 +146,18 @@ export class TableComponent implements OnInit {
 
   deleteIndex(id: any): void {
     console.log("Id of delete", id);
-    if(id){
-      this.service.deleteUserById(id).subscribe((res:any) => {
-        console.log(res, "Response after delete");
-        this.getUserList();
-      })
-    }
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      width: '400px',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+        console.log(`Dialog result: ${result}`);
+        if(result){
+        this.service.deleteUserById(id).subscribe((res:any) => {
+          console.log(res, "Response after delete");
+          this.getUserList();
+        })
+      }
+    })
   }
 
   editUser(id: user) {

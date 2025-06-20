@@ -5,10 +5,10 @@
         <ngb-alert *ngIf="showMsg" type="successfully" (closed)="staticAlertClosed = true">User added
             successfully</ngb-alert>
         <div class="form-group">
-            <label for="username">Username</label>
-            <input id="username" type="text" class="form-control" formControlName="username">
-            <small *ngIf="signUpForm.get('username')?.invalid && signUpForm.get('username')?.touched">
-                Username must be at least 3 characters.
+            <label for="name">name</label>
+            <input id="name" type="text" class="form-control" formControlName="name">
+            <small *ngIf="signUpForm.get('name')?.invalid && signUpForm.get('name')?.touched">
+                name must be at least 3 characters.
             </small>
         </div>
 
@@ -21,10 +21,18 @@
         </div>
         
         <div class="form-group">
-            <label for="email">Email</label>
-            <input id="email" type="email" class="form-control" formControlName="email">
-            <small *ngIf="signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched">
-                Please enter a valid email.
+            <label for="Password">Password</label>
+            <input id="password" type="password" class="form-control" formControlName="password">
+            <small *ngIf="signUpForm.get('password')?.invalid && signUpForm.get('password')?.touched">
+                Wrong password.
+            </small>
+        </div>
+        
+        <div class="form-group">
+            <label for="age">Age</label>
+            <input id="age" type="text" class="form-control" formControlName="age">
+            <small *ngIf="signUpForm.get('age')?.invalid && signUpForm.get('age')?.touched">
+                Please enter a valid age.
             </small>
         </div>
 
@@ -32,7 +40,7 @@
             <input id="file" type="file" class="form-control" formControlName="file" (change)="onFileSelected($event)">
         </div> -->
 
-        <button type="submit" class="btn btn-primary" style="width: 100%;">Submit</button>
+        <button [disabled]="signUpForm.invalid" type="submit" class="btn btn-primary" style="width: 100%;">Submit</button>
     </form>
 </div>
 
