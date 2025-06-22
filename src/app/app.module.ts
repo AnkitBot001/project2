@@ -14,6 +14,15 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { MultipartComponent } from './multipart/multipart.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { DeleteConfirmationComponent } from './popups/delete-confirmation/delete-confirmation.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ToastrModule } from 'ngx-toastr';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,6 +31,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     TableComponent,
     SignUpComponent,
     MultipartComponent,
+    DeleteConfirmationComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,7 +43,18 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     ReactiveFormsModule,
     NgxFileDropModule,
     BrowserAnimationsModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDialogModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

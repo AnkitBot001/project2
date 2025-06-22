@@ -4,6 +4,8 @@ import { inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { user } from '../data-type';
+import { DeleteConfirmationComponent } from '../popups/delete-confirmation/delete-confirmation.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-table',
@@ -13,110 +15,152 @@ import { user } from '../data-type';
 
 export class TableComponent implements OnInit {
 
-  generalService = inject(UsersDataService)
-  updateForm: FormGroup
-  showForm = false;
-  userMessage = '';
-  showEdit=false;
-  showPatch=false;
+  // generalService = inject(UsersDataService)
+  // updateForm: FormGroup
+  // showForm = false;
+  // userMessage = '';
+  // showEdit=false;
+  // showPatch=false;
 
-  users: any[] = [];
+  // users: any[] = [];
 
-  constructor(private userData: UsersDataService, private fb: FormBuilder, private route: ActivatedRoute) {
-    this.generalService.onButtonClick.subscribe(() => {
-      this.getData()
-    })
-    this.updateForm = this.fb.group({
-      username: [''],
-      email: [''],
-      id: ['']
-    })
-  }
-  ngOnInit() {
-    this.getData();
+  // constructor(private userData: UsersDataService, private fb: FormBuilder, private route: ActivatedRoute) {
+  //   this.generalService.onButtonClick.subscribe(() => {
+  //     this.getData()
+  //   })
+  //   this.updateForm = this.fb.group({
+  //     username: [''],
+  //     email: [''],
+  //     id: ['']
+  //   })
+  // }
+  // ngOnInit() {
+  //   this.getData();
 
-  }
+  // }
   
-  isImage(url: string): boolean {
-    return url.match(/\.(jpeg|jpg|gif|png)$/i) !== null;
+  // isImage(url: string): boolean {
+  //   return url.match(/\.(jpeg|jpg|gif|png)$/i) !== null;
+  // }
+
+  // isVideo(url: string): boolean {
+  //   return url.match(/\.(mp4|webm|ogg)$/i) !== null;
+  // }
+
+  // getData() {
+  //   this.userData.users().subscribe(result => {
+  //     this.users = result;
+  //   }, (Error) => {
+  //     console.log(Error)
+  //   })
+  // }
+
+  // deleteIndex(id: any): void {
+  //   if (confirm('Are you sure, you want to delete this user?')) {
+  //     this.userData.deleteData(id).subscribe(() => {
+  //       this.getData();
+  //     })
+  //   }
+  // };
+
+  // editUser(id: user) {
+  //   this.showEdit=true
+  //   this.showPatch=false
+  //   this.userData.editUser(id).subscribe((data: user) => {
+  //     if (data) {
+  //       this.updateForm.patchValue({
+  //         username: data.username,
+  //         email: data.email,
+  //         id: data.id
+  //       })
+  //     }
+  //     console.log(id, "UserId");
+
+  //     this.showForm = true
+  //   })
+  // }
+
+  // updateData(data: user) {
+  //   this.userData.updateUserInfo(data).subscribe((result) => {
+  //     console.log(result, "Result after update");
+
+  //     if (result) {
+  //       console.log("user data has been updated");
+  //       this.getData()
+  //     }
+  //   })
+  //   this.showForm = false
+  // };
+
+  // patchButton(id:user){
+  //   this.showPatch=true
+  //   this.showEdit=false
+  //   this.userData.editUser(id).subscribe((data: user) => {
+  //     if (data) {
+  //       this.updateForm.patchValue({
+  //         username: data.username,
+  //         email: data.email,
+  //         id: data.id
+  //       })
+  //     }
+  //     console.log(id, "UserId");
+
+  //     this.showForm = true
+  //   })
+  // }
+
+  // patchUser(data:user){
+  //   this.userData.patchMethod(data).subscribe((result)=>{
+  //     console.log(result,"result of patch");
+  //     this.getData()
+  //   })
+  // }
+
+  // dispayData(id:user){
+  //   this.userData.getDataFromApi(id).subscribe((result)=>{
+  //     console.log(result,"this is the response from api");
+  //   })
+  // }
+
+  sort:number=1;
+  dataSource: any;
+  displayedColumns: string[] = ['index', 'username', 'email', 'age', 'actions'];
+
+  constructor(private service:UsersDataService,private dialog: MatDialog){}
+  
+  ngOnInit(): void {
+    this.getUserList();
   }
 
-  isVideo(url: string): boolean {
-    return url.match(/\.(mp4|webm|ogg)$/i) !== null;
-  }
-
-  getData() {
-    this.userData.users().subscribe(result => {
-      this.users = result;
-    }, (Error) => {
-      console.log(Error)
+  getUserList(){
+    let obj = {
+      page: 1,
+      limit: 20,
+      sort: this.sort,
+    };
+    this.service.getUserList(obj).subscribe((res:any) => {
+      console.log(res, "User List Response");
+      this.dataSource = res.data;
     })
   }
 
   deleteIndex(id: any): void {
-    if (confirm('Are you sure, you want to delete this user?')) {
-      this.userData.deleteData(id).subscribe(() => {
-        this.getData();
-      })
-    }
-  };
+    console.log("Id of delete", id);
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      width: '400px',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+        console.log(`Dialog result: ${result}`);
+        if(result){
+        this.service.deleteUserById(id).subscribe((res:any) => {
+          console.log(res, "Response after delete");
+          this.getUserList();
+        })
+      }
+    })
+  }
 
   editUser(id: user) {
-    this.showEdit=true
-    this.showPatch=false
-    this.userData.editUser(id).subscribe((data: user) => {
-      if (data) {
-        this.updateForm.patchValue({
-          username: data.username,
-          email: data.email,
-          id: data.id
-        })
-      }
-      console.log(id, "UserId");
-
-      this.showForm = true
-    })
-  }
-
-  updateData(data: user) {
-    this.userData.updateUserInfo(data).subscribe((result) => {
-      console.log(result, "Result after update");
-
-      if (result) {
-        console.log("user data has been updated");
-        this.getData()
-      }
-    })
-    this.showForm = false
-  };
-
-  patchButton(id:user){
-    this.showPatch=true
-    this.showEdit=false
-    this.userData.editUser(id).subscribe((data: user) => {
-      if (data) {
-        this.updateForm.patchValue({
-          username: data.username,
-          email: data.email,
-          id: data.id
-        })
-      }
-      console.log(id, "UserId");
-
-      this.showForm = true
-    })
-  }
-
-  patchUser(data:user){
-    this.userData.patchMethod(data).subscribe((result)=>{
-      console.log(result,"result of patch");
-      this.getData()
-    })
-  }
-
-  dispayData(id:user){
-    this.userData.getDataFromApi(id).subscribe((result)=>{
-      console.log(result,"this is the response from api");
-    })
+    console.log(id, "UserId for edit");
   }
 }
