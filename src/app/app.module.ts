@@ -50,9 +50,12 @@ import { ToastrModule } from 'ngx-toastr';
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
+    BrowserAnimationsModule, // required for Toastr animations
     ToastrModule.forRoot({
-      timeOut: 3000,
       positionClass: 'toast-top-right',
+      timeOut: 3000,
+      closeButton: true,
+      progressBar: true,
       preventDuplicates: true,
     }),
   ],
