@@ -1,6 +1,5 @@
 <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "large" color = "#fff" type = "ball-atom" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
 <div class="sign-up-form">
-
     <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
         <ngb-alert *ngIf="showMsg" type="successfully" (closed)="staticAlertClosed = true">User added
             successfully</ngb-alert>

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsersDataService } from '../services/users-data.service';
 import { HttpClient } from '@angular/common/http';
@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./sign-up.component.css'],
 })
 export class SignUpComponent implements OnInit {
+   @Output() triggerUserList = new EventEmitter<void>();
   generalService = inject(UsersDataService);
   routeEndpoint: string = '';
   routeParam: string | null = null;
@@ -102,6 +103,7 @@ export class SignUpComponent implements OnInit {
         if(res.code === 200){
           this.toastr.success('Data saved successfully!', 'Success');
           this.signUpForm.reset();
+          this.triggerUserList.emit();
         }else{
           this.toastr.error('Something went wrong!', 'Error');
         }

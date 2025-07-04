@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { TableComponent } from '../table/table.component';
 
 @Component({
   selector: 'app-home',
@@ -6,6 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
+   @ViewChild(TableComponent) tableComponent!: TableComponent;
+
+  handleUserListCall() {
+    this.tableComponent.getUserList();
+  }
   onSelect(option: string) {
     console.log(`Selected: ${option}`);
   };
