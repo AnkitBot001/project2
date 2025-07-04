@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { NgbAlert, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -14,8 +15,6 @@ import { ToastrService } from 'ngx-toastr';
 export class SignUpComponent implements OnInit {
    @Output() triggerUserList = new EventEmitter<void>();
   generalService = inject(UsersDataService);
-  routeEndpoint: string = '';
-  routeParam: string | null = null;
   imageUrl: string = '';
   selectedFile: File | null = null;
   signUpForm: FormGroup;
@@ -27,7 +26,8 @@ export class SignUpComponent implements OnInit {
     private userData: UsersDataService,
     private http: HttpClient,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private route: ActivatedRoute,
   ) {
     // Initialize the form
     this.signUpForm = this.fb.group({
@@ -41,6 +41,25 @@ export class SignUpComponent implements OnInit {
   ngOnInit() {
     console.log('Signup Component Initialized');
     this.generalService.onButtonClick.next('');
+    this.route.queryParamMap.subscribe(params => {
+      const edit = params.get('edit');
+      const id = params.get('id');
+      if(edit){
+        this.generalService.getUserById(id).subscribe((res:any)=>{
+          console.log('User data for edit:', res);
+          if(res.code === 200){
+            this.signUpForm.patchValue({
+              name: res.data.name,
+              email: res.data.email,
+              password: res.data.password,
+              age: res.data.age
+            });
+          }else{
+            this.toastr.error('Something went wrong while fetching user data!', 'Error');
+          }
+        })
+      }
+    })
   }
 
   // Handle file selection

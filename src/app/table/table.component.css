@@ -17,3 +17,8 @@ small {
   border-radius: 12px;
   padding: 10px;
 } */
+
+.search {
+  display: flex;
+  align-items: center;
+} 

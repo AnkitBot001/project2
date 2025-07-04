@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { UsersDataService } from '../services/users-data.service';
 import { inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { user } from '../data-type';
 import { DeleteConfirmationComponent } from '../popups/delete-confirmation/delete-confirmation.component';
 import { MatDialog } from '@angular/material/dialog';
+import { debounceTime, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-table',
@@ -38,7 +39,7 @@ export class TableComponent implements OnInit {
   //   this.getData();
 
   // }
-  
+
   // isImage(url: string): boolean {
   //   return url.match(/\.(jpeg|jpg|gif|png)$/i) !== null;
   // }
@@ -122,23 +123,38 @@ export class TableComponent implements OnInit {
   //   })
   // }
 
-  sort:number=1;
+  sort: number = 1;
   dataSource: any;
   displayedColumns: string[] = ['index', 'username', 'email', 'age', 'actions'];
+  search: string = '';
+  searchSubject: Subject<string> = new Subject<string>();
+  destroy$: Subject<void> = new Subject<void>();
+  constructor(private service: UsersDataService, private dialog: MatDialog, private route: ActivatedRoute, private router: Router) { }
 
-  constructor(private service:UsersDataService,private dialog: MatDialog){}
-  
   ngOnInit(): void {
     this.getUserList();
+      this.searchSubject
+      .pipe(
+        debounceTime(300),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(value => {
+        this.getUserList(value);
+      });
   }
 
-  getUserList(){
+   onSearchChange() {
+    this.searchSubject.next(this.search);
+  }
+
+  getUserList(search:string = ''):void {
     let obj = {
       page: 1,
       limit: 20,
       sort: this.sort,
+      search: search || ''
     };
-    this.service.getUserList(obj).subscribe((res:any) => {
+    this.service.getUserList(obj).subscribe((res: any) => {
       console.log(res, "User List Response");
       this.dataSource = res.data;
     })
@@ -150,9 +166,9 @@ export class TableComponent implements OnInit {
       width: '400px',
     });
     dialogRef.afterClosed().subscribe(result => {
-        console.log(`Dialog result: ${result}`);
-        if(result){
-        this.service.deleteUserById(id).subscribe((res:any) => {
+      console.log(`Dialog result: ${result}`);
+      if (result) {
+        this.service.deleteUserById(id).subscribe((res: any) => {
           console.log(res, "Response after delete");
           this.getUserList();
         })
@@ -161,6 +177,13 @@ export class TableComponent implements OnInit {
   }
 
   editUser(id: user) {
-    console.log(id, "UserId for edit");
+    // console.log(id, "UserId for edit");
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        edit: true,
+        id: id,
+      }
+    });
   }
 }

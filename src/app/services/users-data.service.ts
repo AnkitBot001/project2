@@ -56,6 +56,11 @@ export class UsersDataService {
     const API_URL = `${this.URL}/delete/${id}`;
     return this.http.delete(API_URL)
   }
+  
+  getUserById(id:any){
+    const API_URL = `${this.URL}/get/${id}`;
+    return this.http.get(API_URL)
+  }
 
   signUp(form:any){
     const API_URL = `${this.URL}/signup`;

@@ -63,7 +63,13 @@
             (click)="patchUser(updateForm.value)">Patch</button>
     </form>
 </div> -->
-
+<div class="search"><p>Search:</p><input
+  type="text"
+  placeholder="Search"
+  [(ngModel)]="search"
+  (input)="onSearchChange()"
+/>
+</div>
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
   <!-- Index Column -->
@@ -93,11 +99,11 @@
   <!-- Actions Column -->
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef> Actions </th>
-    <td mat-cell *matCellDef="let user" class="d-flex gap-2">
-      <button class="btn btn-danger" (click)="deleteIndex(user?._id)">
+    <td mat-cell *matCellDef="let user">
+      <button class="btn btn-danger mx-1" (click)="deleteIndex(user?._id)">
         <i class="fa fa-trash"></i>
       </button>
-      <button class="btn btn-primary" (click)="editUser(user?._id)">
+      <button class="btn btn-primary mx-1" (click)="editUser(user?._id)">
         <i class="fa fa-pen-to-square"></i>
       </button>
     </td>
