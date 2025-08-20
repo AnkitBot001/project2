@@ -7,7 +7,7 @@ import { user } from '../data-type';
 import { DeleteConfirmationComponent } from '../popups/delete-confirmation/delete-confirmation.component';
 import { MatDialog } from '@angular/material/dialog';
 import { debounceTime, Subject, takeUntil } from 'rxjs';
-
+import { PageEvent } from '@angular/material/paginator';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -129,6 +129,9 @@ export class TableComponent implements OnInit {
   search: string = '';
   searchSubject: Subject<string> = new Subject<string>();
   destroy$: Subject<void> = new Subject<void>();
+  pagination:any;
+  pageSize:number = 5;
+  pageIndex:number = 0;
   constructor(private service: UsersDataService, private dialog: MatDialog, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
@@ -149,14 +152,15 @@ export class TableComponent implements OnInit {
 
   getUserList(search:string = ''):void {
     let obj = {
-      page: 1,
-      limit: 20,
+      page: this.pageIndex,
+      limit: this.pageSize || 5,
       sort: this.sort,
       search: search || ''
     };
     this.service.getUserList(obj).subscribe((res: any) => {
       console.log(res, "User List Response");
       this.dataSource = res.data;
+      this.pagination = res.pagination;
     })
   }
 
@@ -185,5 +189,11 @@ export class TableComponent implements OnInit {
         id: id,
       }
     });
+  }
+
+  onPageChange(event: PageEvent) {
+    this.pageIndex = (1 + event.pageIndex);
+    this.pageSize = event.pageSize;
+    this.getUserList();
   }
 }
