@@ -1,0 +1,105 @@
+<form [formGroup]="homePageForm" (ngSubmit)="onSubmit()">
+    <div formArrayName="sections" cdkDropList (cdkDropListDropped)="drop($event)">
+      
+      <!-- Loop through sections -->
+      <div *ngFor="let section of sections.controls; let i = index"
+           [formGroupName]="i"
+           class="section-block"
+           cdkDrag>
+        
+        <!-- Section Header -->
+        <div class="section-header">
+          <span class="drag-handle" cdkDragHandle>⋮⋮</span>
+          <strong>{{ section.get('type')?.value | titlecase }} Section</strong>
+          <div class="actions">
+            <button type="button" (click)="duplicateSection(i)">Duplicate</button>
+            <button type="button" (click)="sections.removeAt(i)">Delete</button>
+          </div>
+        </div>
+  
+        <!-- Section Content -->
+        <div [ngSwitch]="section.get('type')?.value">
+  
+          <!-- Banner Section (2 banners) -->
+          <div *ngSwitchCase="'banner'" formGroupName="data">
+            <h4>Banner Images</h4>
+            <div formArrayName="banners" class="grid">
+              <div *ngFor="let b of getSectionByType(section,'banner')?.controls; let j = index" [formGroupName]="j" class="card">
+                <input formControlName="image" placeholder="Banner Image URL" />
+                <input formControlName="sub" placeholder="Sub Text" />
+              </div>
+            </div>
+          </div>
+  
+          <!-- Benefit Section (6 texts) -->
+          <div *ngSwitchCase="'benefit'" formGroupName="data">
+            <h4>Benefits</h4>
+            <div formArrayName="benefits" class="grid">
+              <input *ngFor="let b of getSectionByType(section,'data.benefits')?.controls; let j = index"
+                     [formControlName]="j"
+                     placeholder="Benefit Text" />
+            </div>
+          </div>
+  
+          <!-- Trending Products (3 products) -->
+          <div *ngSwitchCase="'trendingProducts'" formGroupName="data">
+            <h4>Trending Products</h4>
+            <div formArrayName="products" class="grid">
+              <div *ngFor="let p of getSectionByType(section,'data.products')?.controls; let j = index" [formGroupName]="j" class="card">
+                <input formControlName="image" placeholder="Image URL" />
+                <input formControlName="label" placeholder="Label" />
+                <input formControlName="price" placeholder="Price" />
+                <input formControlName="categoryId" placeholder="Category ID" />
+              </div>
+            </div>
+          </div>
+  
+          <!-- Big Banner Section (1 banner) -->
+          <div *ngSwitchCase="'bigBanner'" formGroupName="data">
+            <h4>Big Banner</h4>
+            <input formControlName="image" placeholder="Banner Image URL" />
+          </div>
+  
+          <!-- Back To School (4 banners) -->
+          <div *ngSwitchCase="'backToSchool'" formGroupName="data">
+            <h4>Back To School Banners</h4>
+            <div formArrayName="banners" class="grid">
+              <div *ngFor="let b of getSectionByType(section,'data.banners')?.controls; let j = index" [formGroupName]="j" class="card">
+                <input formControlName="image" placeholder="Banner Image URL" />
+              </div>
+            </div>
+          </div>
+  
+          <!-- These Might Interest You (4 products) -->
+          <div *ngSwitchCase="'theseMightLike'" formGroupName="data">
+            <h4>These Might Interest You</h4>
+            <div formArrayName="products" class="grid">
+              <div *ngFor="let p of getSectionByType(section,'data.products')?.controls; let j = index" [formGroupName]="j" class="card">
+                <input formControlName="image" placeholder="Image URL" />
+                <input formControlName="label" placeholder="Label" />
+                <input formControlName="price" placeholder="Price" />
+                <input formControlName="categoryId" placeholder="Category ID" />
+                <input formControlName="text" placeholder="Extra Text" />
+              </div>
+            </div>
+          </div>
+  
+          <!-- Brands We Offer (6 logos) -->
+          <div *ngSwitchCase="'brands'" formGroupName="data">
+            <h4>Brands We Offer</h4>
+            <div formArrayName="brands" class="grid">
+              <div *ngFor="let b of getSectionByType(section,'data.brands')?.controls; let j = index" [formGroupName]="j" class="card">
+                <input formControlName="image" placeholder="Brand Logo URL" />
+                <input formControlName="label" placeholder="Brand Name" />
+              </div>
+            </div>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+  
+    <!-- Save Button -->
+    <button type="submit">Save Homepage</button>
+  </form>
+  

@@ -22,6 +22,10 @@ import { MatInputModule } from '@angular/material/input';
 import { DeleteConfirmationComponent } from './popups/delete-confirmation/delete-confirmation.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ToastrModule } from 'ngx-toastr';
+import { DragAndDropFormComponent } from './drag-and-drop-form/drag-and-drop-form.component';
+import { CommonModule } from '@angular/common';
+
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -32,6 +36,7 @@ import { ToastrModule } from 'ngx-toastr';
     SignUpComponent,
     MultipartComponent,
     DeleteConfirmationComponent,
+    DragAndDropFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,6 +55,8 @@ import { ToastrModule } from 'ngx-toastr';
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
+    DragDropModule,
+    CommonModule,
     BrowserAnimationsModule, // required for Toastr animations
     ToastrModule.forRoot({
       positionClass: 'toast-top-right',
